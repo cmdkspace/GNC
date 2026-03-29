@@ -1,0 +1,1 @@
+#run all three cases, saves plots

@@ -1,0 +1,1 @@
+# zero-error -> zero command, convergence
