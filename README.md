@@ -2,7 +2,7 @@ NOTATION:
 r = Position vector in inertial (flat-Earth) frame  [m] 
 v = Velocity vector in inertial frame  [m/s] 
 q = Unit quaternion [q0, q1, q2, q3]^T  (scalar first, body→inertial) 
-omega = Angular velocity in body frame  [rad/s]  = [wx, wy, wz]^T 
+omega = Angular velocity in body wrt inertial, expressed in body frame  [rad/s]  = [wx, wy, wz]^T 
 m = Rocket mass  [kg] 
 T = Thrust magnitude  [N] 
 Isp = Specific impulse  [s] 
