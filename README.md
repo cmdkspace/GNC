@@ -41,7 +41,7 @@ vector relative to the body Z axis.
                      ^ z(BDY)   
                      |   
                      |   
-                    /\               0 => into the plane, 
+                    /\               O => out of the plane, 
                    /  \                   rotaion is positive
                   |    |
                   |    |
