@@ -27,3 +27,21 @@ def tvc_torque(T, delta_p, delta_y, r_c2tvc):
     r_eng = np.array([0, 0, -r_c2tvc])
     return np.cross(r_eng, Tb)
 # ===================================================================
+
+def thrust_NED(T, delta_p, delta_y, q):
+    Tb = thrust_body(T, delta_p, delta_y)
+    return rotation_matrix(q) @ Tb
+
+def rot_dynamics_euler(omega, I_body, tau):
+    wx, wy, wz = omega
+    Ixx, Iyy, Izz = I_body #tuple(Ixx, Iyy, Izz)    # ASSUMPTION: I is caliberated as a diagonal matrix
+    wx_dot = ((Iyy - Izz) * wy * wz) / Ixx
+    wy_dot = ((Izz - Ixx) * wx * wz) / Iyy
+    wz_dot = ((Ixx - Iyy) * wx * wy) / Izz
+    return np.array([wx_dot, wy_dot, wz_dot], dtype=float)
+
+def mass_rate(Isp, T):
+    return -T/(Isp * G0)  
+
+# prototype without params
+def rocket_ode():
