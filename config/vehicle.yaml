@@ -2,7 +2,7 @@
 
 # Mass & propulsion
 m_dry:   100.0     # dry mass (no propellant) [kg] 
-T:       15000.0   # thrust [N]  (constant for V1) 
+T_max:       15000.0   # thrust [N]  (constant for V1) 
 Isp:     260.0     # specific impulse [s]  (solid motor ~260, LOX/RP1 ~310) 
  
 # Geometry 

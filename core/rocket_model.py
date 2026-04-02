@@ -56,7 +56,12 @@ def rocket_ode(t, X, u, params):
 
     del_p, del_y = u
 
-    T, Isp, I_body, Aref, CD, r_c2tvc = (params['T'], params['Isp'], params['I_body'], params['Aref'], params['CD'], params['r_c2tvc'])
+    Isp, I_body, Aref, CD, r_c2tvc = (params['Isp'], params['I_body'], params['Aref'], params['CD'], params['r_c2tvc'])
+
+    if m > params['m_dry']:
+        T = params['T_max']
+    else:
+        T = 0.0
 
     h = r[2]
 
