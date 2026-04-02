@@ -1,1 +1,25 @@
 # ALL vehicle parameters in one file
+
+# Mass & propulsion
+m_dry:   100.0     # dry mass (no propellant) [kg] 
+T:       15000.0   # thrust [N]  (constant for V1) 
+Isp:     260.0     # specific impulse [s]  (solid motor ~260, LOX/RP1 ~310) 
+ 
+# Geometry 
+diameter: 0.5      # body diameter [m] 
+l_tvc:    2.0      # CoM to gimbal distance [m] 
+ 
+# Inertia (diagonal, body frame) [kg.m^2] 
+Ixx:     2000.0     # pitch
+Iyy:     2000.0    # yaw
+Izz:     200.0    # roll (symmetric → small)
+ 
+# Aerodynamics 
+CD:      0.4       # drag coefficient 
+ 
+# Control limits 
+delta_max: 0.0873  # max gimbal angle [rad] = 5 degrees 
+ 
+# Controller gains (PD) 
+Kp:   5.0 
+Kd:   2.0
