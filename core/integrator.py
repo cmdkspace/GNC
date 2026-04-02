@@ -14,3 +14,17 @@ def rk4(f, t, X, dt, u, params):
     # NORMALIZATION OF QUATERNION AFTER EVERY STEP TO AVOID DRIFT
     X_new[6:10] = quat_normalize(X_new[6:10])
     return X_new
+
+def simulate(X0, u_func, t_span, dt, params):
+    t0, tf = t_span; t = t0; X = X0.copy()
+    t_hist, X_hist = [t], [X.copy()]
+    p = dict(params) # make a copy of params to avoid modifying the original one
+    while t < tf:
+        u = u_func(t, X) 
+        if X[13] <= p['m_dry']: 
+            X[13] = p['m_dry']
+        X = rk4(rocket_ode, t, X, dt, u, p)
+        t += dt
+        if X[2] < 0 and t > 1: break
+        t_hist.append(t); X_hist.append(X.copy())
+    return np.array(t_hist), np.array(X_hist)
