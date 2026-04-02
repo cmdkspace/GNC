@@ -39,7 +39,7 @@ def rot_dynamics_euler(omega, I_body, tau):
     wx, wy, wz = omega
     Ixx, Iyy, Izz = I_body #tuple(Ixx, Iyy, Izz)    # ASSUMPTION: I is caliberated as a diagonal matrix
     wx_dot = ((Iyy - Izz) * wy * wz + tau[0]) / Ixx
-    wy_dot = ((Izz - Ixx) * wx * wz + tau[1]) / Iyy
+    wy_dot = ((Izz - Ixx) * wz * wx + tau[1]) / Iyy
     wz_dot = ((Ixx - Iyy) * wx * wy + tau[2]) / Izz
     return np.array([wx_dot, wy_dot, wz_dot], dtype=float)
 
