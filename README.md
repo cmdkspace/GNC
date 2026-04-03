@@ -17,6 +17,8 @@ R(q) = 3x3 rotation matrix from quaternion (body→inertial)
 [v]x = Skew-symmetric (cross-product) matrix of vector v 
 x_dot = Time derivative dx/dt
 -------------------------------------------------------------------------
+TO RUN TESTS: python -m pytest -v
+-------------------------------------------------------------------------
 STATE VECTORS:
 x = [ r_x, r_y, r_z,          <!--  position in inertial frame  (3)  -->
 v_x, v_y, v_z,          <!-- # velocity in inertial frame  (3)  -->
