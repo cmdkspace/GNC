@@ -1,4 +1,4 @@
-# RK4_step, simulate
+# rk4, simulate
 import numpy as np
 from core.quaternion import quat_normalize
 from core.rocket_model import rocket_ode

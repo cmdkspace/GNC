@@ -27,7 +27,11 @@ def aero_drag(v, Aref, CD, h):
 # for some fuck's sake, it is very counter intutive to me
 def tvc_torque(T, delta_p, delta_y, r_c2tvc):
     Tb = thrust_body(T, delta_p, delta_y)
-    r_eng = np.array([0, 0, -r_c2tvc], dtype=float)
+    # handles both scalar and vector values
+    if np.isscalar(r_c2tvc):
+        r_eng = np.array([0.0, 0.0, -r_c2tvc])
+    else:
+        r_eng = r_c2tvc
     return np.cross(r_eng, Tb)
 # ===================================================================
 
@@ -47,7 +51,7 @@ def mass_rate(T, Isp):
     return -T/(Isp * G0)  
 
 # prototype without params
-def rocket_ode(t, X, u, params):
+def rocket_ode(T, X, u, params):
     r = X[0:3]
     v = X[3:6]
     q = X[6:10]

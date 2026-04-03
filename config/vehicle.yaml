@@ -7,7 +7,7 @@ Isp:     260.0     # specific impulse [s]  (solid motor ~260, LOX/RP1 ~310)
  
 # Geometry 
 diameter: 0.5      # body diameter [m] 
-l_tvc:    2.0      # CoM to gimbal distance [m] 
+r_c2tvc:    2.0      # CoM to gimbal distance [m] 
  
 # Inertia (diagonal, body frame) [kg.m^2] 
 Ixx:     2000.0     # pitch

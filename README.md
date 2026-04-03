@@ -9,7 +9,7 @@ Isp = Specific impulse  [s]
 g0 = Standard gravity  9.80665 m/s^2 
 I_body = Inertia tensor (diagonal for symmetric rocket)  [kg·m^2] 
 delta_p/y = TVC gimbal angle: pitch / yaw  [rad] 
-l_tvc = Distance from CoM to engine gimbal point  [m] 
+r_c2tvc = Distance from CoM to engine gimbal point  [m] 
 rho(h) = Atmospheric density at altitude h  [kg/m^3] 
 CD = Drag coefficient  [-] 
 Aref = Reference area = pi*D^2/4  [m^2] 
