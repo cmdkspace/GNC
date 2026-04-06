@@ -20,7 +20,7 @@ def test_zero_error():
     q_ref = np.array([1.0, 0.0, 0.0, 0.0])
     gains = {'Kp':1.0, 'Kd':0.1, 'delta_max':0.087}
 
-    u = pd_controller(x, q_ref, gains)
+    u = pd_controller(0, x, q_ref, gains)
 
     assert np.allclose(u, np.zeros(2), atol=1e-8)
 
@@ -34,7 +34,7 @@ def test_pitch_error():
     q_ref = np.array([1.0, 0.0, 0.0, 0.0])
     gains = {'Kp':1.0, 'Kd':0.0, 'delta_max':1.0}
 
-    u = pd_controller(x, q_ref, gains)
+    u = pd_controller(0, x, q_ref, gains)
 
     assert u[0] < 0          # pitch correction opposes error
     assert abs(u[1]) < 1e-6  # no yaw command
@@ -49,7 +49,7 @@ def test_yaw_error():
     q_ref = np.array([1.0, 0.0, 0.0, 0.0])
     gains = {'Kp':1.0, 'Kd':0.0, 'delta_max':1.0}
 
-    u = pd_controller(x, q_ref, gains)
+    u = pd_controller(0, x, q_ref, gains)
 
     assert u[1] < 0          # yaw correction opposes error
     assert abs(u[0]) < 1e-6  # no pitch command
@@ -63,7 +63,7 @@ def test_damping():
     q_ref = np.array([1.0, 0.0, 0.0, 0.0])
     gains = {'Kp':0.0, 'Kd':1.0, 'delta_max':1.0}
 
-    u = pd_controller(x, q_ref, gains)
+    u = pd_controller(0, x, q_ref, gains)
 
     assert u[0] < 0  # should oppose angular velocity
 
@@ -77,6 +77,6 @@ def test_saturation():
     q_ref = np.array([1.0, 0.0, 0.0, 0.0])
     gains = {'Kp':10.0, 'Kd':0.0, 'delta_max':0.087}
 
-    u = pd_controller(x, q_ref, gains)
+    u = pd_controller(0, x, q_ref, gains)
 
     assert abs(u[0]) <= 0.087

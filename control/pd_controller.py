@@ -3,7 +3,7 @@
 import numpy as np
 from core.quaternion import quaternion_error
 
-def pd_controller(x, q_ref, gains):
+def pd_controller(t, x, q_ref, gains):
     q = x[6:10]
     omega = x[10:13]
 
