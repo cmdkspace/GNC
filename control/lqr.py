@@ -1,1 +1,1 @@
-# lineraization, compute_lqr, apply_lqr
+# compute_lqr, linearization, apply_lqr
