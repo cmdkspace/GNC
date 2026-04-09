@@ -23,6 +23,7 @@ def simulate(X0, u_func, t_span, dt, params):
         u = u_func(t, X) 
         if X[13] <= p['m_dry']: 
             X[13] = p['m_dry']
+            p['T_max'] = 0.0 #shuts the thrust off when dry mass is reached
         X = rk4(rocket_ode, t, X, dt, u, p)
         t += dt
         if X[2] < 0 and t > 1: break
