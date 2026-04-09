@@ -140,3 +140,5 @@ But the formulation should remain extensible to:
 Digital elevation maps (DEM)
 Non-flat launch sites
 Ocean launches (dynamic surface)
+
+In later versions, include gravity turn timing and pitch program as well for optimization
