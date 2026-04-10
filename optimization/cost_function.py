@@ -31,7 +31,7 @@ def cost_function(theta, params, sim_params, gains, q_ref):
 
     # Control effort
     u_arr = np.array([u_func(t, X_arr[i]) for i, t in enumerate(t_arr)])
-    ctrl_cost  = np.trapz(u_arr[:, 0]**2 + u_arr[:, 1]**2, t_arr)
+    ctrl_cost  = np.trapezoid(u_arr[:, 0]**2 + u_arr[:, 1]**2, t_arr)
 
     # Total Cost
     J = sim_params['w1'] * (sim_params['h_target'] - h_final)**2 + sim_params['w2'] * ctrl_cost
