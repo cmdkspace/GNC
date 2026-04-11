@@ -21,9 +21,14 @@ def simulate(X0, u_func, t_span, dt, params):
     p = dict(params) # make a copy of params to avoid modifying the original one
     while t < tf:
         u = u_func(t, X) 
+        # mass based cutoff
         if X[13] <= p['m_dry']: 
             X[13] = p['m_dry']
             p['T_max'] = 0.0 #shuts the thrust off when dry mass is reached
+        # time based cutoff
+        if 't_cutoff' in p and t > p['t_cutoff']:
+            p['T_max'] = 0.0
+            
         X = rk4(rocket_ode, t, X, dt, u, p)
         t += dt
         if X[2] < 0 and t > 1: break

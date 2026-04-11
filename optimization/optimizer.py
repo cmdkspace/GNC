@@ -1,5 +1,7 @@
 # run_optimizer, gradient_descent, finite_diff_gradient
 
+# *** this is for offline trajectory optimization***
+
 from scipy.optimize import minimize
 from optimization.cost_function import cost_function
 

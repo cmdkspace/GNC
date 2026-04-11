@@ -35,24 +35,28 @@ gains = {
 }
 
 # initial guess
-theta0 = np.array([0.05]) #small pitch
-bounds = [(-0.2, 0.2)]
+theta0 = np.array([0.05, 10.0]) #small pitch
+bounds = [(-0.2, 0.2), (1.0, 30.0)]     #pitch #cutoff time-calculate before launch
 
 theta_opt, J_opt, result = run_optimizer(theta0, bounds, params, sim_params, gains, q_ref)
 
 print("Optimal theta:", theta_opt)
+print("Optimal cutoff:", theta_opt[1])
 print("Optimal cost:", J_opt)
 
 # simulate
 X0_opt = initial_state_build(theta_opt, params)
-u_func = control_law_build(q_ref, gains)
+u_func = control_law_build(q_ref, gains, theta_opt)
+
+params_local = dict(params)
+params_local['t_cutoff'] = theta_opt[1]
 
 t_arr, X_arr = simulate(
     X0_opt,
     u_func,
     sim_params['t_span'],
     sim_params['dt'],
-    params
+    params_local
 )
 
 print("Max altitude:", np.max(X_arr[:, 2]))
