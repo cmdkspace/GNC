@@ -34,9 +34,16 @@ gains = {
     'delta_max' : 0.087
 }
 
+burn_time = (params['m0'] - params['m_dry']) / (params['T_max'] / (params['Isp'] * 9.81))
+
 # initial guess
-theta0 = np.array([0.05, 10.0]) #small pitch
-bounds = [(-0.2, 0.2), (1.0, 30.0)]     #pitch #cutoff time-calculate before launch
+theta0 = np.array([0.05, 10.0, 2.0, 2.0]) #small pitch
+bounds = [
+    (-0.08, 0.08), #theta_max (safe margin)
+    (1.0, burn_time), #cutoff time-calculate before launch, else full burn time by default
+    (0.5, 5.0), #t_turn(modifiable)
+    (0.5, 5.0)  #t_ramp(modifiable)
+    ]
 
 theta_opt, J_opt, result = run_optimizer(theta0, bounds, params, sim_params, gains, q_ref)
 
@@ -46,7 +53,7 @@ print("Optimal cost:", J_opt)
 
 # simulate
 X0_opt = initial_state_build(theta_opt, params)
-u_func = control_law_build(q_ref, gains, theta_opt)
+u_func = control_law_build(gains, theta_opt)
 
 params_local = dict(params)
 params_local['t_cutoff'] = theta_opt[1]
