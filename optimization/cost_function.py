@@ -8,29 +8,52 @@ from core.integrator import simulate
 
 # init state
 def initial_state_build(theta, params):
-    pitch = theta[0]
+    # pitch = theta[0]
+    pitch0 = 0.0 #launch vertical
+
     X0 = np.zeros(14)
-    X0[6] = np.cos(pitch/2)  # identity quaternion with pitch error
-    X0[7] = np.sin(pitch/2) # small pitch error, about x axis
+    # X0[6] = np.cos(pitch/2)  # identity quaternion with pitch error
+    # X0[7] = np.sin(pitch/2) # small pitch error, about x axis
+    X0[6] = np.cos(pitch0/2)  # identity quaternion with pitch error
+    X0[7] = np.sin(pitch0/2) # small pitch error, about x axis
     X0[13] = params['m0']
     return X0
 
-def control_law_build(q_ref, gains, theta):
+# pitch profile(linear ramp)
+def pitch_profile(t, theta):    #modifiable
+    theta_max = theta[0]
+    t_turn = theta[2]
+    t_ramp = theta[3]
+
+    if t < t_turn: return 0.0
+    elif t < t_turn + t_ramp: return theta_max * (t - t_turn)/t_ramp
+    else: return theta_max
+
+def control_law_build(gains, theta):
     t_cutoff = theta[1]
     def control(t, X):
         if t > t_cutoff:
             return np.zeros(2)
         
+        pitch_ref = pitch_profile(t, theta)
+
+        q_ref = np.array([
+            np.cos(pitch_ref / 2),
+            np.sin(pitch_ref / 2), 
+            0.0,
+            0.0
+        ])
+
         return pd_controller(t, X, q_ref, gains)
     return control
 
-def cost_function(theta, params, sim_params, gains, q_ref):
+def cost_function(theta, params, sim_params, gains, q_ref_unused = None):
     
     params_local = dict(params)
     params_local['t_cutoff'] = theta[1]
 
     X0 = initial_state_build(theta, params)
-    u_func = control_law_build(q_ref, gains, theta)
+    u_func = control_law_build(gains, theta)
 
     t_arr, X_arr = simulate(X0, u_func, sim_params['t_span'], sim_params['dt'], params_local)
 
