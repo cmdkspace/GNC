@@ -4,11 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ALTITUDE COMP
-def plot_altComp(t_base, X_base, t_pd, X_pd, t_opt, X_opt):
+def plot_altComp(t_base, X_base, t_pd, X_pd, t_lqr, X_lqr, t_opt, X_opt):
     plt.figure()
 
     plt.plot(t_base, X_base[:, 2], label = "Baseline")
     plt.plot(t_pd, X_pd[:, 2], label = "PD Controlled")
+    plt.plot(t_lqr, X_lqr[:, 2], label = "LQR")
     plt.plot(t_opt, X_opt[:, 2], label = "Optimized")
 
     plt.xlabel("Time (s)")
@@ -52,4 +53,19 @@ def plot_control(t_arr, u_arr, label=""):
     plt.grid()
     plt.legend()
 
+    plt.show()
+
+def plot_control_comparison(t_pd, u_pd, t_lqr, u_lqr):
+
+    import matplotlib.pyplot as plt
+
+    plt.figure()
+
+    plt.plot(t_pd, u_pd[:,0], label="PD u1")
+    plt.plot(t_lqr, u_lqr[:,0], label="LQR u1")
+
+    plt.xlabel("Time")
+    plt.ylabel("Control")
+    plt.legend()
+    plt.grid()
     plt.show()

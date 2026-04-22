@@ -6,6 +6,8 @@ from control.pd_controller import pd_controller
 from optimization.optimizer import run_optimizer
 from optimization.cost_function import initial_state_build, control_law_build
 from analysis.plots import plot_altComp
+from control.lqr import lqr_controller, lqr_controller_build
+
 
 params  = {
     'T_max': 15000.0,
@@ -31,6 +33,14 @@ gains = {
     'Kd' : 0.3,
     'delta_max' : 0.087
 }
+
+lqr_gains = {
+    'Q': np.diag([10, 10, 1, 1]),
+    'R': np.diag([1, 1]),
+    'delta_max': 0.087
+}
+
+K = lqr_controller_build(params, lqr_gains)
 
 # baseline
 def run_baseline():
@@ -65,6 +75,29 @@ def run_pd():
     )
 
     print("PD max altitude:", np.max(X_arr[:, 2]))
+
+    return t_arr, X_arr
+
+# LQR Controlled
+def run_lqr():
+
+    X0 = np.zeros(14)
+    X0[6] = 1.0
+    X0[13] = params['m0']
+
+    def u_func(t, X):
+        q_ref = np.array([1.0, 0.0, 0.0, 0.0])
+        return lqr_controller(t, X, q_ref, K, params, lqr_gains)
+
+    t_arr, X_arr = simulate(
+        X0,
+        u_func,
+        sim_params['t_span'],
+        sim_params['dt'],
+        params
+    )
+
+    print("LQR max altitude:", np.max(X_arr[:, 2]))
 
     return t_arr, X_arr
 
@@ -112,11 +145,13 @@ def run_optimized():
 def main():
     t_base, X_base = run_baseline()
     t_pd, X_pd = run_pd()
+    t_lqr, X_lqr = run_lqr()
     t_opt, X_opt = run_optimized()
 
     plot_altComp(
         t_base, X_base,
         t_pd, X_pd,
+        t_lqr, X_lqr,
         t_opt, X_opt
     )
 
